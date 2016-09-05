@@ -8,29 +8,19 @@
 #include <ESP8266WebServer.h>
 #include "webserver.h"
 
-#include "rgbled.h"
-
 ESP8266WebServer server(80);
 
-void handleRoot() {
-  setG();
-  server.send(200, "text/plain", "hello from esp8266!");
-  Serial.printf("OK\n");
-}
-
-void addHandler(const char *url, handler fn) {
-
+void addHandler(const char *url, const char *content_type, handler fn) {
   Serial.printf("\nhandler: (%s) -> %s\n", url, fn());
 
   server.on(url, [=](){
     const char *msg = fn();
     Serial.printf(msg);
-    server.send(200, "text/plain", msg);
+    server.send(200, content_type, msg);
   });
 }
 
-void handleNotFound(){
-  setR();
+const char *NotFoundMessage() {
   String message = "File Not Found\n\n";
   message += "URI: ";
   message += server.uri();
@@ -42,19 +32,15 @@ void handleNotFound(){
   for (uint8_t i=0; i<server.args(); i++){
     message += " " + server.argName(i) + ": " + server.arg(i) + "\n";
   }
-  server.send(404, "text/plain", message);
-  Serial.printf("404\n");
+  return message.c_str();
 }
 
-void setupWebserver() {
-  server.on("/", handleRoot);
-
-  server.on("/inline", [](){
-    server.send(200, "text/plain", "this works as well");
-    setG();
+void setupWebserver(handler handleNotFound) {
+  server.onNotFound([=](){
+    const char *msg = handleNotFound();
+    Serial.printf("404\n");
+    server.send(404, "text/plain", msg);
   });
-
-  server.onNotFound(handleNotFound);
 
   server.begin();
 }
