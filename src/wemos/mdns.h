@@ -1,0 +1,3 @@
+
+void setupMDNS();
+void updateMDNS();

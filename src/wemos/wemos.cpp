@@ -1,10 +1,7 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
 #include <WiFiClient.h>
-#include <ESP8266WebServer.h>
-#include <ESP8266mDNS.h>
 
-MDNSResponder mdns;
 
 // The single colour LED on the CPU board
 const int led = LED_BUILTIN;
@@ -34,14 +31,4 @@ void setupWIFI(const char *ssid, const char *password) {
   Serial.print("signal strength (RSSI):");
   Serial.print(rssi);
   Serial.println(" dBm");
-
-  if (mdns.begin("esp8266", WiFi.localIP())) {
-    Serial.println("MDNS responder started");
-    // look at http://bbs.espressif.com/viewtopic.php?t=485
-    MDNS.addService("http", "tcp", 80);
-  }
-}
-
-void updateWIFI() {
-  mdns.update();
 }

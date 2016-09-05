@@ -4,6 +4,7 @@
 #include "wemos/oled.h"
 #include "wemos/rgbled.h"
 #include "wemos/webserver.h"
+#include "wemos/mdns.h"
 
 #include <Arduino.h>
 
@@ -23,6 +24,7 @@ void setup(void){
 
 
   setupWIFI(ssid, password);
+  setupMDNS();
 
   setupWebserver();
   Serial.println("HTTP server started");
@@ -38,6 +40,6 @@ void setup(void){
 }
 
 void loop(void){
-  updateWIFI();
+  updateMDNS();
   updateWebserver();
 }
