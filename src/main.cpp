@@ -5,7 +5,6 @@
 #include "wemos/rgbled.h"
 #include "wemos/webserver.h"
 #include "wemos/mdns.h"
-
 #include <Arduino.h>
 
 const char* ssid = "ASUS";
@@ -27,6 +26,8 @@ void setup(void){
   setupMDNS();
 
   setupWebserver();
+  addHandler("/info", wifiInfo);
+
   Serial.println("HTTP server started");
 
   setB();

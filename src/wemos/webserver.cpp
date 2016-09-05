@@ -6,6 +6,7 @@
 // from https://github.com/platformio/platformio-examples/tree/develop/espressif/esp8266-webserver
 #include <Arduino.h>
 #include <ESP8266WebServer.h>
+#include "webserver.h"
 
 #include "rgbled.h"
 
@@ -15,6 +16,17 @@ void handleRoot() {
   setG();
   server.send(200, "text/plain", "hello from esp8266!");
   Serial.printf("OK\n");
+}
+
+void addHandler(const char *url, handler fn) {
+
+  Serial.printf("\nhandler: (%s) -> %s\n", url, fn());
+
+  server.on(url, [=](){
+    const char *msg = fn();
+    Serial.printf(msg);
+    server.send(200, "text/plain", msg);
+  });
 }
 
 void handleNotFound(){
