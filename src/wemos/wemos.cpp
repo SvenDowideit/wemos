@@ -5,6 +5,7 @@
 #include <ESP8266mDNS.h>
 
 MDNSResponder mdns;
+
 // The single colour LED on the CPU board
 const int led = LED_BUILTIN;
 void setupLED() {
@@ -28,6 +29,11 @@ void setupWIFI(const char *ssid, const char *password) {
   Serial.println(ssid);
   Serial.print("IP address: ");
   Serial.println(WiFi.localIP());
+  // print the received signal strength:
+  long rssi = WiFi.RSSI();
+  Serial.print("signal strength (RSSI):");
+  Serial.print(rssi);
+  Serial.println(" dBm");
 
   if (mdns.begin("esp8266", WiFi.localIP())) {
     Serial.println("MDNS responder started");

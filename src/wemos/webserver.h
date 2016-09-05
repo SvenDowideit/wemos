@@ -1,0 +1,3 @@
+
+void setupWebserver();
+void updateWebserver();
