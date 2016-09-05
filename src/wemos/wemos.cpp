@@ -13,7 +13,7 @@ void setLED(unsigned short state) {
 #define REPLY_LENGTH 256
 char reply[REPLY_LENGTH+1];
 
-const char *wifiInfo() {
+String *wifiInfo() {
   byte mac[6];                     // the MAC address of your Wifi shield
   WiFi.macAddress(mac);
 
@@ -24,7 +24,7 @@ signal strength (RSSI): %d dBm
 MAC: %x:%x:%x:%x:%x:%x
 )", WiFi.SSID().c_str(), WiFi.localIP().toString().c_str(), WiFi.RSSI(),
 mac[5], mac[4], mac[3], mac[2], mac[1], mac[0]);
-  return reply;
+  return new String(reply);
 }
 
 void setupWIFI(const char *ssid, const char *password) {
@@ -36,5 +36,5 @@ void setupWIFI(const char *ssid, const char *password) {
     Serial.print(".");
   }
 
-  Serial.println(wifiInfo());
+  Serial.println(*(wifiInfo()));
 }

@@ -1,3 +1,4 @@
+#include <WString.h>
 
 #include "wemos/wemos.h"
 // Each of these is optional for the wemos target
@@ -10,10 +11,10 @@
 const char* ssid = "ASUS";
 const char* password = "WhatTheHe11";
 
-const char *handleRoot() {
+String *handleRoot() {
   setG();
   Serial.printf("GET /\nOK\n");
-  return R"(<!DOCTYPE html>
+  String start = R"(<!DOCTYPE html>
 <html>
 <head>
 <title>ESP</title>
@@ -21,15 +22,20 @@ const char *handleRoot() {
 <body>
 <h1>Hello from a WEMOS D1 mini</h1>
 <div>
-<ul>
-<li>one</li>
-<li>one</li>
-<li>one</li>
-</ul>
+<ul>)";
+
+long  fh = ESP.getFreeHeap();
+char  fhc[20];
+
+ltoa(fh, fhc, 10);
+
+  String heap = "<li>Heap " + String(fhc) + "</li>";
+  String end = R"(</ul>
 </div>
 </body>
 </html>
   )";
+  return new String(start+heap+end);
 }
 
 void setup(void){
@@ -45,12 +51,12 @@ void setup(void){
   setupWIFI(ssid, password);
   setupMDNS();
 
-  setupWebserver([](){
+  setupWebserver([=](){
     setR();
     return NotFoundMessage();
   });
   addHandler("/", "text/html", handleRoot);
-  addHandler("/info", "text/plain", [](){
+  addHandler("/info", "text/plain", [=](){
     setB();
     return wifiInfo();
   });
