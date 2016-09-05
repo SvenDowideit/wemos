@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-
 
 // The single colour LED on the CPU board
 const int led = LED_BUILTIN;

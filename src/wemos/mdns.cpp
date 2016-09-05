@@ -1,7 +1,5 @@
 #include <Arduino.h>
 #include <ESP8266WiFi.h>
-#include <WiFiClient.h>
-#include <ESP8266WebServer.h>
 #include <ESP8266mDNS.h>
 
 MDNSResponder mdns;
@@ -15,5 +13,5 @@ if (mdns.begin("esp8266", WiFi.localIP())) {
 }
 
 void updateMDNS() {
-mdns.update();
+  mdns.update();
 }

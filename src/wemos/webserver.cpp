@@ -5,8 +5,6 @@
 // Seems like an odd choice to not abstract this into an implementation of the Arduino Webserver
 // from https://github.com/platformio/platformio-examples/tree/develop/espressif/esp8266-webserver
 #include <Arduino.h>
-#include <ESP8266WiFi.h>
-#include <WiFiClient.h>
 #include <ESP8266WebServer.h>
 
 #include "rgbled.h"
