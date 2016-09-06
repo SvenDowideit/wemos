@@ -24,18 +24,32 @@ String *handleRoot() {
 <div>
 <ul>)";
 
-long  fh = ESP.getFreeHeap();
-char  fhc[20];
+  long  fh = ESP.getFreeHeap();
+  char  fhc[20];
 
-ltoa(fh, fhc, 10);
-
+  ltoa(fh, fhc, 10);
   String heap = "<li>Heap " + String(fhc) + "</li>";
+
+  ltoa( ESP.getFlashChipRealSize(), fhc, 10);
+  String flashSize = "<li>Flash size " + String(fhc) + "</li>";
+
+  ltoa( ESP.getSketchSize(), fhc, 10);
+  String sketchSize = "<li>Sketch size " + String(fhc) + "</li>";
+
+  ltoa( ESP.getFreeSketchSpace(), fhc, 10);
+  String freeSketchSize = "<li>Free Sketch size " + String(fhc) + "</li>";
+
   String end = R"(</ul>
 </div>
 </body>
 </html>
   )";
-  return new String(start+heap+end);
+  return new String(start +
+    heap +
+    sketchSize +
+    freeSketchSize +
+    flashSize +
+    end);
 }
 
 void setup(void){
